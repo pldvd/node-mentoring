@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/pldvd/node-mentoring/issues"
   },
-  "homepage": "https://github.com/pldvd/node-mentoring#readme"
+  "homepage": "https://github.com/pldvd/node-mentoring#readme",
+  "devDependencies": {
+    "@types/node": "^20.1.0",
+    "typescript": "^5.0.4"
+  }
 }
