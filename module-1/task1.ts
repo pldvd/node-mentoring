@@ -7,7 +7,7 @@ first-string processing.
 */
 const readline = require('readline');
 
-function reverseInput() {
+function reverseInput(): void {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
