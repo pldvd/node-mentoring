@@ -4,7 +4,8 @@
   "description": "This repo contains code written for a Node.js mentoring programme.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "task1": "nodemon ./module-1/task1.ts"
   },
   "repository": {
     "type": "git",
