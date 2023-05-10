@@ -5,3 +5,15 @@ the standard output stdout.
 • The program should be running in a stand-by mode and should not be terminated after the 
 first-string processing.
 */
+import * as readline from 'node:readline';
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+rl.on('line', (input: string) => {
+  const output = input.split('').reverse().join('');
+  console.log(output);
+});
