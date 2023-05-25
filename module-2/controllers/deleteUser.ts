@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { users } from '../data/users';
 
-export const getUser = (req: Request, res: Response) => {
+export const deleteUser = (req: Request, res: Response) => {
   const { id } = req.params;
   const user = users.find((user) => user.id === id);
 
@@ -11,5 +11,7 @@ export const getUser = (req: Request, res: Response) => {
     return;
   }
 
-  res.status(StatusCodes.OK).json(user);
+  user.isDeleted = true;
+
+  res.status(StatusCodes.OK).send('User was deleted successfully.');
 };

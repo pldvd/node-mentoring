@@ -13,10 +13,7 @@ userRouter.put('/:id', (req, res) => {
   res.status(200).send('Update user hello');
 });
 
-userRouter.delete('/:id', (req, res) => {
-  // soft delete user
-  res.status(200).send('Delete user hello');
-});
+userRouter.delete('/:id', userController.deleteUser);
 
 userRouter.post('/', (req, res) => {
   // create new user
