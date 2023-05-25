@@ -7,11 +7,7 @@ userRouter.get('/', userController.getUsers);
 
 userRouter.get('/:id', userController.getUser);
 
-userRouter.put('/:id', (req, res) => {
-  // update user
-  // add body validation
-  res.status(200).send('Update user hello');
-});
+userRouter.put('/:id', userController.updateUser);
 
 userRouter.delete('/:id', userController.deleteUser);
 
