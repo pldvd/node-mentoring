@@ -8,14 +8,10 @@ userRouter.get('/', userController.getUsers); // validate search query, add filt
 
 userRouter.get('/:id', findUser, userController.returnUser);
 
-userRouter.put('/:id', findUser, userController.updateUser);
+userRouter.put('/:id', findUser, userController.updateUser); // validate body
 
 userRouter.delete('/:id', findUser, userController.deleteUser);
 
-userRouter.post('/', (req, res) => {
-  // create new user
-  // add body validation
-  res.status(200).send('Add user hello');
-});
+userRouter.post('/', userController.createUser); // validate body
 
 export default userRouter;
