@@ -1,16 +1,11 @@
 import express from 'express';
+import * as userController from '../controllers';
+
 const userRouter = express.Router();
 
-userRouter.get('/', (req, res) => {
-  // get all users
-  // use queryStrings limit and filter suggestions by loginSubstring => getAutoSuggestUsers(loginSubstring, limit)
-  res.status(200).send('Allusers hello');
-});
+userRouter.get('/', userController.getUsers);
 
-userRouter.get('/:id', (req, res) => {
-  // get specific user
-  res.status(200).send('GetOneUser hello');
-});
+userRouter.get('/:id', userController.getUser);
 
 userRouter.put('/:id', (req, res) => {
   // update user
