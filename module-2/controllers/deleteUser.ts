@@ -1,16 +1,9 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { users } from '../data/users';
+import { RequestWithUser } from '../types';
 
-export const deleteUser = (req: Request, res: Response) => {
-  const { id } = req.params;
-  const user = users.find((user) => user.id === id);
-
-  if (!user || user.isDeleted) {
-    res.status(StatusCodes.NOT_FOUND).send('User was not found');
-    return;
-  }
-
+export const deleteUser = (req: RequestWithUser, res: Response) => {
+  const user = req.user!;
   user.isDeleted = true;
 
   res.status(StatusCodes.OK).send('User was deleted successfully.');

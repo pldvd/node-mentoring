@@ -1,15 +1,9 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { users } from '../data/users';
+import { RequestWithUser } from '../types';
 
-export const updateUser = (req: Request, res: Response) => {
-  const { id } = req.params;
-  let user = users.find((user) => user.id === id);
-
-  if (!user || user.isDeleted) {
-    res.status(StatusCodes.NOT_FOUND).send('User was not found');
-    return;
-  }
+export const updateUser = (req: RequestWithUser, res: Response) => {
+  let user = req.user!;
 
   user = Object.assign(user, req.body);
 

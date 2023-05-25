@@ -1,8 +1,13 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { users } from '../data/users';
+import { RequestWithUser } from '../types';
 
-export const getUser = (req: Request, res: Response) => {
+export const findUser = (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
   const user = users.find((user) => user.id === id);
 
@@ -11,5 +16,6 @@ export const getUser = (req: Request, res: Response) => {
     return;
   }
 
-  res.status(StatusCodes.OK).json(user);
+  req.user = user;
+  next();
 };
