@@ -1,17 +1,18 @@
 import express from 'express';
 import * as userController from '../controllers';
 import { findUser } from '../middleware/findUser';
+import { validateUserData, validateFilters } from '../middleware/validators';
 
 const userRouter = express.Router();
 
-userRouter.get('/', userController.getUsers); // validate search query,
+userRouter.get('/', validateFilters, userController.getUsers);
 
 userRouter.get('/:id', findUser, userController.returnUser);
 
-userRouter.put('/:id', findUser, userController.updateUser); // validate body
+userRouter.put('/:id', validateUserData, findUser, userController.updateUser);
 
 userRouter.delete('/:id', findUser, userController.deleteUser);
 
-userRouter.post('/', userController.createUser); // validate body
+userRouter.post('/', validateUserData, userController.createUser);
 
 export default userRouter;

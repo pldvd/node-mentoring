@@ -6,11 +6,11 @@ export const userSchema = Joi.object({
   password: Joi.string()
     .alphanum()
     .pattern(new RegExp(/^(?=.*[a-zA-Z])(?=.*[0-9])/)),
-  age: Joi.number().min(4).max(130),
+  age: Joi.number().min(4).max(130).required(),
   isDeleted: Joi.bool(),
 });
 
 export const filterIngSchema = Joi.object({
   loginSubstring: Joi.string(),
-  limit: Joi.number().optional,
+  limit: Joi.number(),
 });
