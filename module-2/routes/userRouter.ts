@@ -4,7 +4,7 @@ import { findUser } from '../middleware/findUser';
 
 const userRouter = express.Router();
 
-userRouter.get('/', userController.getUsers); // validate search query, add filtering and limit
+userRouter.get('/', userController.getUsers); // validate search query,
 
 userRouter.get('/:id', findUser, userController.returnUser);
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import userRouter from './routes/userRouter';
-import { pageNotFound } from './middleware/errorHandlers';
+import { errorHandler, pageNotFound } from './middleware/errorHandlers';
 
 dotenv.config();
 
@@ -16,5 +16,6 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRouter);
 app.use(pageNotFound);
+app.use(errorHandler);
 
 app.listen(PORT, () => process.stdout.write(`App is listening on ${PORT}`));
