@@ -15,7 +15,7 @@ const createUser = (req: Request, res: Response) => {
 
   users.push(newUser);
 
-  res.status(StatusCodes.OK).send('User was successfully created');
+  res.status(StatusCodes.CREATED).send('User was successfully created');
 };
 
 export default errorBoundary(createUser);
