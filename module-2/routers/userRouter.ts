@@ -3,9 +3,10 @@ import { StatusCodes } from 'http-status-codes';
 import UserService from '../services';
 import { findUser } from '../middleware/findUser';
 import { validateUserData, validateFilters } from '../middleware/validators';
+import User from '../models/User';
 
 const userRouter = express.Router();
-const userService = new UserService();
+const userService = new UserService(User);
 
 userRouter.get('/', validateFilters, async (req, res) => {
   const users = await userService.getUsers();
@@ -38,11 +39,13 @@ userRouter.delete('/:id', findUser, async (req, res) => {
   res.status(StatusCodes.OK).json(deletedUser);
 });
 
-userRouter.post('/', validateUserData, async (req, res) => {
+userRouter.post('/', validateUserData, (req, res) => {
   const userData = req.body;
-  const newUser = await userService.createUser(userData);
 
-  res.status(StatusCodes.CREATED).json(newUser);
+  userService
+    .createUser(userData)
+    .then((newUser) => res.status(StatusCodes.CREATED).json(newUser))
+    .catch((e) => res.json(e));
 });
 
 export default userRouter;

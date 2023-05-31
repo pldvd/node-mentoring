@@ -1,7 +1,12 @@
 import { IUser } from '../types';
+import { ModelStatic, Model } from 'sequelize';
 
 export default class UserService {
-  constructor() {} //pass userModel as this.userModel = userModel;
+  userModel: ModelStatic<Model<any, any>>;
+
+  constructor(userModel: ModelStatic<Model<any, any>>) {
+    this.userModel = userModel;
+  } //pass userModel as this.userModel = userModel;
 
   async getUsers() {
     //ORM get logic, return all users this.userModell.getAll()
@@ -23,8 +28,8 @@ export default class UserService {
     return {};
   }
 
-  async createUser(userData: IUser) {
-    //ORM updat4e logic
-    return {};
+  async createUser(data: Pick<IUser, 'login' | 'password' | 'age'>) {
+    const newUser = await this.userModel.create(data);
+    return newUser;
   }
 }
