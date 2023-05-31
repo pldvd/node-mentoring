@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import appRouter from './routes';
+import appRouter from './routers';
 import { errorHandler, pageNotFound } from './middleware/errorHandlers';
 
 const app = express();
