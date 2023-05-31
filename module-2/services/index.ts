@@ -1,4 +1,4 @@
-import { User } from '../types';
+import { IUser } from '../types';
 
 export default class UserService {
   constructor() {} //pass userModel as this.userModel = userModel;
@@ -23,7 +23,7 @@ export default class UserService {
     return {};
   }
 
-  async createUser(userData: User) {
+  async createUser(userData: IUser) {
     //ORM updat4e logic
     return {};
   }

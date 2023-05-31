@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-export interface User {
+export interface IUser {
   id: string;
   login: string;
   password: string;
@@ -9,5 +9,5 @@ export interface User {
 }
 
 export interface RequestWithUser extends Request {
-  user?: User;
+  user?: IUser;
 }
