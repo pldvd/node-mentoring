@@ -6,8 +6,10 @@ const {
   DB_PASSWORD = 'password',
 } = process.env;
 
-export const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   host: 'localhost',
   dialect: 'postgres' as Dialect,
   port: 5432,
 });
+
+export default sequelize;
