@@ -1,5 +1,30 @@
-export { default as returnUser } from './returnUser';
-export { default as getUsers } from './getUsers';
-export { default as deleteUser } from './deleteUser';
-export { default as updateUser } from './updateUser';
-export { default as createUser } from './createUser';
+import { User } from '../types';
+
+export default class UserService {
+  constructor() {} //pass userModel as this.userModel = userModel;
+
+  async getUsers() {
+    //ORM get logic, return all users this.userModell.getAll()
+    return {};
+  }
+
+  async getUser(id: string) {
+    //ORM get logic, return user
+    return {};
+  }
+
+  async updateUser(id: string) {
+    //ORM updat4e logic
+    return {};
+  }
+
+  async deleteUser(id: string) {
+    //ORM updat4e logic
+    return {};
+  }
+
+  async createUser(userData: User) {
+    //ORM updat4e logic
+    return {};
+  }
+}
