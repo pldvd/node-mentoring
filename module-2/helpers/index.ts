@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { User } from '../types';
+import { IUser } from '../types';
 
-export const sortByLoginName = (a: User, b: User) => {
+export const sortByLoginName = (a: IUser, b: IUser) => {
   if (a.login < b.login) {
     return -1;
   }
@@ -12,10 +12,10 @@ export const sortByLoginName = (a: User, b: User) => {
 };
 
 export const getAutoSuggestUsers = (
-  arr: User[],
+  arr: IUser[],
   loginSubstring: string | undefined,
   limit: number
-): User[] => {
+): IUser[] => {
   return loginSubstring
     ? arr
         .filter((user) => user.login.includes(loginSubstring))
