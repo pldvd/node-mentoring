@@ -1,5 +1,5 @@
 import { IUser } from '../types';
-import { ModelStatic, Model } from 'sequelize';
+import { ModelStatic, Model, Op } from 'sequelize';
 
 export default class UserService {
   userModel: ModelStatic<Model<any, any>>;
@@ -8,8 +8,15 @@ export default class UserService {
     this.userModel = userModel;
   }
 
-  async getUsers() {
-    const users = await this.userModel.findAll();
+  async getUsers(limit: number, loginSubstring: string) {
+    const users = await this.userModel.findAll({
+      where: {
+        login: {
+          [Op.substring]: loginSubstring,
+        },
+      },
+      limit,
+    });
     return users;
   }
 

@@ -9,8 +9,10 @@ const userRouter = express.Router();
 const userService = new UserService(User);
 
 userRouter.get('/', validateFilters, (req, res) => {
+  const { limit = Number.MAX_SAFE_INTEGER, loginSubstring = '' } = req.query;
+
   userService
-    .getUsers()
+    .getUsers(+limit, loginSubstring as string)
     .then((users) => {
       res.status(StatusCodes.OK).json(users);
     })
