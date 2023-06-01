@@ -1,6 +1,6 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
-import UserService from '../services';
+import UserService from '../services/userService';
 
 import { validateUserData, validateFilters } from '../middleware/validators';
 import User from '../models/User';

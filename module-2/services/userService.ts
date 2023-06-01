@@ -1,5 +1,5 @@
 import { IUser } from '../types';
-import { ModelStatic, Model, Op, where } from 'sequelize';
+import { ModelStatic, Model, Op } from 'sequelize';
 
 export default class UserService {
   userModel: ModelStatic<Model<any, any>>;
