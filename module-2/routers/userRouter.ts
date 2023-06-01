@@ -1,12 +1,12 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import UserService from '../services';
-import { findUser } from '../middleware/findUser';
+
 import { validateUserData, validateFilters } from '../middleware/validators';
 import User from '../models/User';
 
 const userRouter = express.Router();
-const userService = new UserService(User);
+export const userService = new UserService(User);
 
 userRouter.get('/', validateFilters, (req, res, next) => {
   const { limit = Number.MAX_SAFE_INTEGER, loginSubstring = '' } = req.query;
@@ -32,29 +32,33 @@ userRouter.get('/:id', (req, res, next) => {
     .catch(next);
 });
 
-userRouter.put('/:id', validateUserData, findUser, (req, res, next) => {
+userRouter.put('/:id', validateUserData, (req, res, next) => {
   const { id } = req.params;
 
   userService
     .updateUser(id, req.body)
-    .then(() =>
-      res
-        .status(StatusCodes.OK)
-        .send(`User with id: ${id} was updated successfully.`)
-    )
+    .then(([affectedCount]) => {
+      affectedCount === 0
+        ? res.status(StatusCodes.NOT_FOUND).send('User not found.')
+        : res
+            .status(StatusCodes.OK)
+            .send(`User with id: ${id} was updated successfully.`);
+    })
     .catch(next);
 });
 
-userRouter.delete('/:id', findUser, (req, res, next) => {
+userRouter.delete('/:id', (req, res, next) => {
   const { id } = req.params;
 
   userService
     .deleteUser(id)
-    .then(() =>
-      res
-        .status(StatusCodes.OK)
-        .send(`User with id: ${id} was removed successfully.`)
-    )
+    .then((affetedCount) => {
+      affetedCount === 0
+        ? res.status(StatusCodes.NOT_FOUND).send('User not found.')
+        : res
+            .status(StatusCodes.OK)
+            .send(`User with id: ${id} was removed successfully.`);
+    })
     .catch(next);
 });
 
