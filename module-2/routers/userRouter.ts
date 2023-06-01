@@ -8,7 +8,7 @@ import User from '../models/User';
 const userRouter = express.Router();
 const userService = new UserService(User);
 
-userRouter.get('/', validateFilters, (req, res) => {
+userRouter.get('/', validateFilters, (req, res, next) => {
   const { limit = Number.MAX_SAFE_INTEGER, loginSubstring = '' } = req.query;
 
   userService
@@ -16,41 +16,55 @@ userRouter.get('/', validateFilters, (req, res) => {
     .then((users) => {
       res.status(StatusCodes.OK).json(users);
     })
-    .catch((e) => res.json(e));
+    .catch(next);
 });
 
-userRouter.get('/:id', async (req, res) => {
+userRouter.get('/:id', (req, res, next) => {
   const { id } = req.params;
-  const user = await userService.getUser(id);
 
-  if (!user) {
-    res.status(StatusCodes.NOT_FOUND).send('User not found.');
-  } else {
-    res.status(StatusCodes.OK).json(user);
-  }
+  userService
+    .getUser(id)
+    .then((user) => {
+      user === null
+        ? res.status(StatusCodes.NOT_FOUND).send('User not found.')
+        : res.status(StatusCodes.OK).json(user);
+    })
+    .catch(next);
 });
 
-userRouter.put('/:id', validateUserData, findUser, async (req, res) => {
+userRouter.put('/:id', validateUserData, findUser, (req, res, next) => {
   const { id } = req.params;
-  const updatedUser = userService.updateUser(id);
 
-  res.status(StatusCodes.OK).json(updatedUser);
+  userService
+    .updateUser(id, req.body)
+    .then(() =>
+      res
+        .status(StatusCodes.OK)
+        .send(`User with id: ${id} was updated successfully.`)
+    )
+    .catch(next);
 });
 
-userRouter.delete('/:id', findUser, async (req, res) => {
+userRouter.delete('/:id', findUser, (req, res, next) => {
   const { id } = req.params;
-  const deletedUser = await userService.deleteUser(id);
 
-  res.status(StatusCodes.OK).json(deletedUser);
+  userService
+    .deleteUser(id)
+    .then(() =>
+      res
+        .status(StatusCodes.OK)
+        .send(`User with id: ${id} was removed successfully.`)
+    )
+    .catch(next);
 });
 
-userRouter.post('/', validateUserData, (req, res) => {
+userRouter.post('/', validateUserData, (req, res, next) => {
   const userData = req.body;
 
   userService
     .createUser(userData)
     .then((newUser) => res.status(StatusCodes.CREATED).json(newUser))
-    .catch((e) => res.json(e));
+    .catch(next);
 });
 
 export default userRouter;

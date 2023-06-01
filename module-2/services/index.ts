@@ -1,5 +1,5 @@
 import { IUser } from '../types';
-import { ModelStatic, Model, Op } from 'sequelize';
+import { ModelStatic, Model, Op, where } from 'sequelize';
 
 export default class UserService {
   userModel: ModelStatic<Model<any, any>>;
@@ -8,35 +8,31 @@ export default class UserService {
     this.userModel = userModel;
   }
 
-  async getUsers(limit: number, loginSubstring: string) {
-    const users = await this.userModel.findAll({
+  getUsers(limit: number, loginSubstring: string) {
+    return this.userModel.findAll({
       where: {
         login: {
           [Op.substring]: loginSubstring,
         },
       },
+      order: [['login', 'ASC']],
       limit,
     });
-    return users;
   }
 
-  async getUser(id: string) {
-    //ORM get logic, return user
-    return {};
+  getUser(id: string) {
+    return this.userModel.findByPk(id);
   }
 
-  async updateUser(id: string) {
-    //ORM updat4e logic
-    return {};
+  updateUser(id: string, userData: Pick<IUser, 'login' | 'password' | 'age'>) {
+    return this.userModel.update(userData, { where: { id } });
   }
 
-  async deleteUser(id: string) {
-    //ORM updat4e logic
-    return {};
+  deleteUser(id: string) {
+    return this.userModel.destroy({ where: { id } });
   }
 
-  async createUser(data: Pick<IUser, 'login' | 'password' | 'age'>) {
-    const newUser = await this.userModel.create(data);
-    return newUser;
+  createUser(data: Pick<IUser, 'login' | 'password' | 'age'>) {
+    return this.userModel.create(data);
   }
 }
