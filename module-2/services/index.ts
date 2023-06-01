@@ -6,11 +6,11 @@ export default class UserService {
 
   constructor(userModel: ModelStatic<Model<any, any>>) {
     this.userModel = userModel;
-  } //pass userModel as this.userModel = userModel;
+  }
 
   async getUsers() {
-    //ORM get logic, return all users this.userModell.getAll()
-    return {};
+    const users = await this.userModel.findAll();
+    return users;
   }
 
   async getUser(id: string) {

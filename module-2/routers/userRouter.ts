@@ -8,10 +8,13 @@ import User from '../models/User';
 const userRouter = express.Router();
 const userService = new UserService(User);
 
-userRouter.get('/', validateFilters, async (req, res) => {
-  const users = await userService.getUsers();
-
-  res.status(StatusCodes.OK).json(users);
+userRouter.get('/', validateFilters, (req, res) => {
+  userService
+    .getUsers()
+    .then((users) => {
+      res.status(StatusCodes.OK).json(users);
+    })
+    .catch((e) => res.json(e));
 });
 
 userRouter.get('/:id', async (req, res) => {
