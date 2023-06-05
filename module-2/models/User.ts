@@ -1,32 +1,34 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../data-access';
 
+const { INTEGER, STRING, BOOLEAN } = DataTypes;
+
 const User = sequelize.define(
   'user',
   {
     id: {
       primaryKey: true,
-      type: DataTypes.INTEGER,
+      type: INTEGER,
       autoIncrement: true,
     },
     login: {
-      type: DataTypes.STRING,
+      type: STRING,
     },
     password: {
-      type: DataTypes.STRING,
+      type: STRING,
       validate: {
         is: /^(?=.*[a-zA-Z])(?=.*[0-9])/,
       },
     },
     age: {
-      type: DataTypes.INTEGER,
+      type: INTEGER,
       validate: {
         min: 4,
         max: 130,
       },
     },
     isdeleted: {
-      type: DataTypes.BOOLEAN,
+      type: BOOLEAN,
       defaultValue: false,
     },
   },
