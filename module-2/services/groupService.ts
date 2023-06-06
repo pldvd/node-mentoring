@@ -1,5 +1,6 @@
 import { IGroup, GroupData } from '../types';
 import { ModelStatic, Model } from 'sequelize';
+import User from '../models/User';
 
 export default class GroupService {
   groupModel: ModelStatic<Model<IGroup, GroupData>>;
@@ -9,11 +10,11 @@ export default class GroupService {
   }
 
   getGroups() {
-    return this.groupModel.findAll();
+    return this.groupModel.findAll({ include: User });
   }
 
   getGroup(id: string) {
-    return this.groupModel.findByPk(id);
+    return this.groupModel.findByPk(id, { include: User });
   }
 
   updateGroup(id: string, groupData: GroupData) {
