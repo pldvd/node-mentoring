@@ -27,7 +27,7 @@ const User = sequelize.define(
         max: 130,
       },
     },
-    isdeleted: {
+    isDeleted: {
       type: BOOLEAN,
       defaultValue: false,
     },

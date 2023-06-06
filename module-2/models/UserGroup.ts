@@ -5,14 +5,18 @@ import Group from './Group';
 
 const { INTEGER } = DataTypes;
 
-const UserGroup = sequelize.define('usergroup', {
-  id: {
-    type: INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false,
+const UserGroup = sequelize.define(
+  'usergroup',
+  {
+    id: {
+      type: INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
   },
-});
+  { timestamps: false }
+);
 
 User.belongsToMany(Group, { through: UserGroup });
 Group.belongsToMany(User, { through: UserGroup });
