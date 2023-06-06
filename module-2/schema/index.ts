@@ -19,7 +19,7 @@ export const filterIngSchema = Joi.object({
 export const groupSchema = Joi.object({
   id: Joi.string(),
   name: Joi.string().required(),
-  permissions: Joi.array().items(
-    Joi.string().valid(...Object.values(PermissionEnum))
-  ),
+  permissions: Joi.array()
+    .items(Joi.string().valid(...Object.values(PermissionEnum)))
+    .required(),
 });
