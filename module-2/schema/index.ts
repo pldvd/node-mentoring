@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { PermissionEnum } from '../types';
 
 export const userSchema = Joi.object({
   id: Joi.string(),
@@ -13,4 +14,12 @@ export const userSchema = Joi.object({
 export const filterIngSchema = Joi.object({
   loginSubstring: Joi.string(),
   limit: Joi.number(),
+});
+
+export const groupSchema = Joi.object({
+  id: Joi.string(),
+  name: Joi.string().required(),
+  permissions: Joi.array().items(
+    Joi.string().valid(...Object.values(PermissionEnum))
+  ),
 });
