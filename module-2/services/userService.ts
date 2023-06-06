@@ -1,5 +1,6 @@
 import { IUser, UserData } from '../types';
 import { ModelStatic, Model, Op } from 'sequelize';
+import Group from '../models/Group';
 
 export default class UserService {
   userModel: ModelStatic<Model<IUser, UserData>>;
@@ -17,11 +18,12 @@ export default class UserService {
       },
       order: [['login', 'ASC']],
       limit,
+      include: Group,
     });
   }
 
   getUser(id: string) {
-    return this.userModel.findByPk(id);
+    return this.userModel.findByPk(id, { include: Group });
   }
 
   updateUser(id: string, userData: UserData) {
@@ -32,7 +34,7 @@ export default class UserService {
     return this.userModel.destroy({ where: { id } });
   }
 
-  createUser(data: Pick<IUser, 'login' | 'password' | 'age'>) {
-    return this.userModel.create(data);
+  createUser(userData: UserData) {
+    return this.userModel.create(userData);
   }
 }
