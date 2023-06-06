@@ -1,10 +1,10 @@
-import { IUser } from '../types';
+import { IUser, UserData } from '../types';
 import { ModelStatic, Model, Op } from 'sequelize';
 
 export default class UserService {
-  userModel: ModelStatic<Model<any, any>>;
+  userModel: ModelStatic<Model<IUser, UserData>>;
 
-  constructor(userModel: ModelStatic<Model<any, any>>) {
+  constructor(userModel: ModelStatic<Model<IUser, UserData>>) {
     this.userModel = userModel;
   }
 
@@ -24,7 +24,7 @@ export default class UserService {
     return this.userModel.findByPk(id);
   }
 
-  updateUser(id: string, userData: Pick<IUser, 'login' | 'password' | 'age'>) {
+  updateUser(id: string, userData: UserData) {
     return this.userModel.update(userData, { where: { id } });
   }
 

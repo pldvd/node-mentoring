@@ -8,6 +8,8 @@ export interface IUser {
   isDeleted?: boolean;
 }
 
+export type UserData = Pick<IUser, 'login' | 'password' | 'age'>;
+
 export interface RequestWithUser extends Request {
   user?: IUser;
 }
@@ -25,3 +27,5 @@ export interface IGroup {
   name: string;
   permissions: PermissionEnum[];
 }
+
+export type GroupData = Pick<IGroup, 'name' | 'permissions'>;

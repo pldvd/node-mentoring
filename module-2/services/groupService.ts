@@ -1,10 +1,10 @@
-import { IUser, IGroup } from '../types';
-import { ModelStatic, Model, Op } from 'sequelize';
+import { IGroup, GroupData } from '../types';
+import { ModelStatic, Model } from 'sequelize';
 
 export default class GroupService {
-  groupModel: ModelStatic<Model<any, any>>;
+  groupModel: ModelStatic<Model<IGroup, GroupData>>;
 
-  constructor(groupModel: ModelStatic<Model<any, any>>) {
+  constructor(groupModel: ModelStatic<Model<IGroup, GroupData>>) {
     this.groupModel = groupModel;
   }
 
@@ -16,7 +16,7 @@ export default class GroupService {
     return this.groupModel.findByPk(id);
   }
 
-  updateGroup(id: string, groupData: Pick<IGroup, 'name' | 'permissions'>) {
+  updateGroup(id: string, groupData: GroupData) {
     return this.groupModel.update(groupData, { where: { id } });
   }
 
@@ -24,7 +24,7 @@ export default class GroupService {
     return this.groupModel.destroy({ where: { id } });
   }
 
-  createGroup(data: Pick<IGroup, 'name' | 'permissions'>) {
-    return this.groupModel.create(data);
+  createGroup(groupData: GroupData) {
+    return this.groupModel.create(groupData);
   }
 }
