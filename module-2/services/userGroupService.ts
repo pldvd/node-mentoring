@@ -1,4 +1,5 @@
 import { ModelStatic, Model } from 'sequelize';
+import sequelize from '../data-access';
 import { IUserGroup } from '../types';
 
 export default class UserGroupService {
@@ -10,5 +11,15 @@ export default class UserGroupService {
 
   getAll() {
     return this.userGroupModel.findAll();
+  }
+
+  addUsersToGroup(groupId: string, userIds: string[]) {
+    const newEntries = userIds.map((id) => ({ groupId, userId: id }));
+
+    return sequelize.transaction(async (t) => {
+      return await this.userGroupModel.bulkCreate(newEntries, {
+        transaction: t,
+      });
+    });
   }
 }

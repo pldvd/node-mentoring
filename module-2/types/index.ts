@@ -31,7 +31,7 @@ export interface IGroup {
 export type GroupData = Pick<IGroup, 'name' | 'permissions'>;
 
 export interface IUserGroup {
-  id: string;
+  id?: string;
   groupId: string;
   userId: string;
 }
