@@ -1,5 +1,5 @@
 import express from 'express';
-import sequelize from '../data-access';
+import { StatusCodes } from 'http-status-codes';
 import UserGroup from '../models/UserGroup';
 import UserGroupService from '../services/userGroupService';
 
@@ -10,7 +10,7 @@ userGroupRouter.get('/', (req, res, next) => {
   userGroupService
     .getAll()
     .then((userGroups) => {
-      res.status(200).json(userGroups);
+      res.status(StatusCodes.OK).json(userGroups);
     })
     .catch(next);
 });
@@ -22,7 +22,7 @@ userGroupRouter.post('/add', (req, res, next) => {
   userGroupService
     .addUsersToGroup(groupId, userIds)
     .then((data) => {
-      res.status(201).json(data);
+      res.status(StatusCodes.CREATED).json(data);
     })
     .catch(next);
 });
