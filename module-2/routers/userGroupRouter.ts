@@ -15,7 +15,7 @@ userGroupRouter.get('/', (req, res, next) => {
     .catch(next);
 });
 
-userGroupRouter.post('/add-users-to-group', (req, res, next) => {
+userGroupRouter.post('/add', (req, res, next) => {
   const groupId = req.body.groupId as string;
   const userIds = req.body.userIds as string[];
 
