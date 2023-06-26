@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 export const pageNotFound = (req: Request, res: Response) => {
-  res.status(404).send('Page not found.');
+  res.status(404).send('Not found.');
 };
 
 export const errorHandler = (
@@ -10,5 +10,5 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  res.status(500).send('Internal server error');
+  res.status(500).json(err);
 };
