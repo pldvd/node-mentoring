@@ -1,10 +1,8 @@
 import morgan from 'morgan';
 import { Request, Response } from 'express';
 
-export const requestLogger = morgan((tokens, req: Request, res: Response) => {
-  const { method, url } = tokens;
-  const data = req.body || {};
-
-  // prettier-ignore
-  return `Calling ${method(req, res)} ${url(req, res)} with data: ${JSON.stringify(data)}`;
+morgan.token('data', (req: Request, res: Response) => {
+  return JSON.stringify(req.body);
 });
+
+export const requestLogger = morgan(':method :url :data');

@@ -16,3 +16,11 @@ app.use(pageNotFound);
 app.use(errorHandler);
 
 app.listen(PORT, () => process.stdout.write(`App is listening on ${PORT}`));
+
+process
+  .on('uncaughtException', (error, origin) => {
+    //log that stuff
+  })
+  .on('unhandledRejection', (reason, promise) => {
+    //log that stuff
+  });
