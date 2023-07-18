@@ -1,7 +1,6 @@
 import { IUser, UserData } from '../types';
 import { ModelStatic, Model, Op } from 'sequelize';
 import Group from '../models/Group';
-import bcrypt from 'bcrypt';
 import { hashPassword } from '../utils/auth';
 
 export default class UserService {
