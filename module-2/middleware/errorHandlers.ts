@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import logger from '../utils/logger';
 import { getHttpStatusCodeFromError } from '../utils/error';
+import logger from '../utils/logger';
 
 export const notFound = (req: Request, res: Response) => {
   res.status(404).send('Not found.');

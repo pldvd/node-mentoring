@@ -1,13 +1,13 @@
-import { ErrorsEnum } from '../types';
 import { StatusCodes } from 'http-status-codes';
+import { NotFoundError, UnauthorizedError } from '../services/authService';
 
 export const getHttpStatusCodeFromError = (err: Error) => {
-  switch (err.name) {
-    case ErrorsEnum.NOT_FOUND:
-      return StatusCodes.NOT_FOUND;
-    case ErrorsEnum.UNAUTHENTICATED:
-      return StatusCodes.UNAUTHORIZED;
-    default:
-      return StatusCodes.INSUFFICIENT_SPACE_ON_RESOURCE;
+  if (err instanceof NotFoundError) {
+    return StatusCodes.NOT_FOUND;
   }
+  if (err instanceof UnauthorizedError) {
+    return StatusCodes.UNAUTHORIZED;
+  }
+
+  return StatusCodes.INTERNAL_SERVER_ERROR;
 };
