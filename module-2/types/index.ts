@@ -35,3 +35,8 @@ export interface IUserGroup {
   groupId: string;
   userId: string;
 }
+
+export enum ErrorsEnum {
+  NOT_FOUND = 'NotFoundError',
+  UNAUTHENTICATED = 'UnauthenticatedError',
+}
