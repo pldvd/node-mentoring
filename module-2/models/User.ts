@@ -17,7 +17,7 @@ const User = sequelize.define(
     password: {
       type: STRING,
       validate: {
-        is: /^(?=.*[a-zA-Z])(?=.*[0-9])/,
+        is: /^\$2[ayb]\$.{56}$/,
       },
     },
     age: {

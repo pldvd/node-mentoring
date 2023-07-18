@@ -1,6 +1,8 @@
 import { IUser, UserData } from '../types';
 import { ModelStatic, Model, Op } from 'sequelize';
 import Group from '../models/Group';
+import bcrypt from 'bcrypt';
+import { hashPassword } from '../utils/auth';
 
 export default class UserService {
   userModel: ModelStatic<Model<IUser, UserData>>;
@@ -34,7 +36,8 @@ export default class UserService {
     return this.userModel.destroy({ where: { id } });
   }
 
-  createUser(userData: UserData) {
-    return this.userModel.create(userData);
+  async createUser(userData: UserData) {
+    const hashedPassword = await hashPassword(userData.password);
+    return this.userModel.create({ ...userData, password: hashedPassword });
   }
 }
