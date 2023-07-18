@@ -6,11 +6,15 @@ import User from '../models/User';
 const authRouter = express.Router();
 const authService = new AuthService(User);
 
-authRouter.post('/login', async (req, res, next) => {
+authRouter.post('/login', (req, res, next) => {
   const { login: userName, password } = req.body;
-  const user = await authService.login(userName, password);
 
-  res.json({ user });
+  authService
+    .login(userName, password)
+    .then((token) => {
+      res.json({ token });
+    })
+    .catch(next);
 });
 
 export default authRouter;

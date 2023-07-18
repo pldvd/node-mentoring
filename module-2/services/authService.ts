@@ -1,6 +1,21 @@
 import { ModelStatic, Model } from 'sequelize';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { IUser, UserData } from '../types';
+
+export class NotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'notFoundError';
+  }
+}
+
+export class UnauthorizedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'unauthorizedError';
+  }
+}
 
 export default class AuthService {
   userModel: ModelStatic<Model<IUser, UserData>>;
@@ -10,8 +25,27 @@ export default class AuthService {
   }
 
   async login(userName: string, password: string) {
-    const user = await this.userModel.findOne({ where: { login: userName } });
+    const user = await this.userModel.findOne({
+      where: { login: userName },
+    });
 
-    return user;
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    const passwordsDoMatch = await bcrypt.compare(
+      password,
+      user.dataValues.password
+    );
+
+    if (passwordsDoMatch) {
+      const { TOKEN_SECRET = '908b095421916c751880515a' } = process.env;
+      const { id, age, login: name } = user.dataValues;
+
+      const token = await jwt.sign({ id, age, name }, TOKEN_SECRET);
+      return token;
+    }
+
+    throw new UnauthorizedError('Incorrect username or password');
   }
 }
