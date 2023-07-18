@@ -8,11 +8,12 @@ CREATE TABLE IF NOT EXISTS users
     "isDeleted" BOOLEAN DEFAULT FALSE
 );
 
+-- passwords are hashed values of password1, password2, password3
 INSERT INTO users (login, password, age)
 VALUES
-    ('user1', 'password1', 10),
-    ('user2', 'password2', 20),
-    ('user3', 'password3', 30);
+    ('user1', '$2b$10$qqbGNEDy6eFJlu5YxYZCDOINlc4Uu1K.1bHUHWMr7atZHEfzXEQLy', 10),
+    ('user2', '$2b$10$O5g1pVhpXKwfx/FKUpCd/eeilJWceNWeRaWCjTNv6KIysuj10dQKy', 20),
+    ('user3', '$2b$10$fykwswTGm2zcS8W.tX9PAu0rM38WQNsg9r29UwafVxhda/aiOP1F2', 30);
 
 DROP TYPE IF EXISTS permissions_type;
 CREATE TYPE permissions_type AS ENUM ('READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES');
