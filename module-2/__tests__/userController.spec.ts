@@ -1,33 +1,46 @@
-import express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import request from 'supertest';
 import User from '../models/User';
 import sequelizeFixtures from 'sequelize-fixtures';
-import appRouter from '../routers';
 import { users } from './fixtures/users';
-import app from '../app';
 import sequelize from '../data-access';
+import app from '../app';
+
+jest.mock('../middleware/checkToken', () =>
+  jest.fn((req: Request, res: Response, next: NextFunction) => next())
+);
 
 const populateDB = () => {
-  return sequelizeFixtures
-    .loadFixtures(users, { User })
-    .then(() => console.log('all good'));
+  return sequelizeFixtures.loadFixtures(users, { User });
 };
 
-// const clearDB = () => {
-//   return User.destroy({ truncate: true });
-// };
+const clearDB = () => {
+  return User.destroy({ truncate: true, cascade: true });
+};
 
 describe('userController', () => {
-  // beforeEach(() => populateDB());
-  // afterEach(() => clearDB());
-  // afterAll(() => sequelize.close());
+  beforeEach(() => populateDB());
+  afterEach(() => clearDB());
+  afterAll(() => {
+    sequelize.close();
+  });
 
-  // it('Should return all users upon a request to GET /users', (done) => {
-  //   request(app).get('/users').expect(401, done);
-  // });
+  test('GET /users should return full list of users', async () => {
+    const response = await request(app).get('/users');
 
-  test('GET /users should return a list of users', () => {});
-  test('GET /users/:id should return a specific user', () => {});
-  test('POST /users should create a new user', () => {});
-  test('DELETE /users should return return a specific user', () => {});
+    expect(response.status).toEqual(200);
+    expect(response.body).toHaveLength(4);
+  });
+
+  test('GET /users/:id should return a specific user', async () => {
+    const response = await request(app).get('/users/1');
+
+    expect(response.status).toEqual(200);
+    expect(response.body.id).toBe('1');
+    expect(response.body.login).toBe('User1');
+    expect(response.body.age).toBe(33);
+  });
+
+  // test('POST /users should create a new user', () => {});
+  // test('DELETE /users should return return a specific user', () => {});
 });
