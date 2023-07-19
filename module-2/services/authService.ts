@@ -6,14 +6,12 @@ import { IUser, UserData } from '../types';
 export class NotFoundError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'notFoundError';
   }
 }
 
 export class UnauthorizedError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'unauthorizedError';
   }
 }
 

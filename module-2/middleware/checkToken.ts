@@ -18,7 +18,7 @@ export const checkToken = (req: Request, res: Response, next: NextFunction) => {
 
   jwt.verify(token, TOKEN_SECRET, (err, token) => {
     if (err) {
-      res.status(StatusCodes.FORBIDDEN).send('Invalid token');
+      res.status(StatusCodes.UNAUTHORIZED).send('Invalid token');
       return;
     }
 
