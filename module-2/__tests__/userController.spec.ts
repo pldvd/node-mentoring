@@ -30,6 +30,13 @@ describe('userController', () => {
 
     expect(response.status).toEqual(200);
     expect(response.body).toHaveLength(4);
+
+    response.body.forEach((user) => {
+      expect(user).toHaveProperty('login');
+      expect(user).toHaveProperty('password');
+      expect(user).toHaveProperty('age');
+      expect(user).toHaveProperty('isDeleted');
+    });
   });
 
   test('GET /users/:id should return a specific user', async () => {
@@ -38,9 +45,17 @@ describe('userController', () => {
     expect(response.status).toEqual(200);
     expect(response.body.id).toBe('1');
     expect(response.body.login).toBe('User1');
-    expect(response.body.age).toBe(33);
+    expect(response.body.age).toEqual(33);
+    expect(response.body.isDeleted).toBe(false);
   });
 
-  // test('POST /users should create a new user', () => {});
-  // test('DELETE /users should return return a specific user', () => {});
+  test('POST /users should create a new user', async () => {});
+
+  test('DELETE /users should delete a specific user and return a success message', async () => {
+    const response = await request(app).delete('/users/1');
+    const successMessage = 'User with id: 1 was removed successfully.';
+
+    expect(response.status).toEqual(200);
+    expect(response.text).toBe(successMessage);
+  });
 });
