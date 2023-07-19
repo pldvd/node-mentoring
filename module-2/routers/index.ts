@@ -3,7 +3,7 @@ import userRouter from './userRouter';
 import groupRouter from './groupRouter';
 import userGroupRouter from './userGroupRouter';
 import authRouter from './authRouter';
-import { checkToken } from '../middleware/checkToken';
+import checkToken from '../middleware/checkToken';
 
 const appRouter = express.Router();
 

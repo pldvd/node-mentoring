@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 
-export const checkToken = (req: Request, res: Response, next: NextFunction) => {
+const checkToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -25,3 +25,5 @@ export const checkToken = (req: Request, res: Response, next: NextFunction) => {
     next();
   });
 };
+
+export default checkToken;
