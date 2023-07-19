@@ -31,3 +31,5 @@ process
       `Unhandled promise rejection error: ${reason}, from promise: ${promise}`
     );
   });
+
+export default app;
