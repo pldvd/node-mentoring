@@ -18,8 +18,6 @@ app.use(appRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => logger.info(`App is listening on ${PORT}`));
-
 process
   .on('uncaughtException', (error, origin) => {
     logger.error(
@@ -32,4 +30,6 @@ process
     );
   });
 
-export default app;
+export const server = app.listen(PORT, () =>
+  logger.info(`App is listening on ${PORT}`)
+);

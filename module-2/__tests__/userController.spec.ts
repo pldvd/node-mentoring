@@ -4,7 +4,7 @@ import User from '../models/User';
 import sequelizeFixtures from 'sequelize-fixtures';
 import { users } from './fixtures/users';
 import sequelize from '../data-access';
-import app from '../app';
+import { server as app } from '../app';
 
 jest.mock('../middleware/checkToken', () =>
   jest.fn((req: Request, res: Response, next: NextFunction) => next())
@@ -23,6 +23,7 @@ describe('userController', () => {
   afterEach(() => clearDB());
   afterAll(() => {
     sequelize.close();
+    app.close();
   });
 
   test('GET /users should return full list of users', async () => {
