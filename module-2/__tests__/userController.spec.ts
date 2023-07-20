@@ -31,15 +31,18 @@ describe('userController', () => {
   describe('GET /users', () => {
     it('GET /users should return full list of users', async () => {
       const response = await request(app).get('/users');
+      const expected = {
+        id: expect.any(String),
+        password: expect.any(String),
+        age: expect.any(Number),
+        isDeleted: expect.any(Boolean),
+      };
 
       expect(response.status).toEqual(StatusCodes.OK);
       expect(response.body).toHaveLength(4);
 
       response.body.forEach((user) => {
-        expect(user).toHaveProperty('login');
-        expect(user).toHaveProperty('password');
-        expect(user).toHaveProperty('age');
-        expect(user).toHaveProperty('isDeleted');
+        expect(user).toMatchObject(expected);
       });
     });
   });
@@ -53,6 +56,7 @@ describe('userController', () => {
         age: 33,
         isDeleted: false,
       };
+
       expect(response.status).toEqual(StatusCodes.OK);
       expect(response.body).toMatchObject(expected);
     });
