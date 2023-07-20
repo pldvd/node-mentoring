@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
+import { getHttpStatusCodeFromError } from '../utils/error';
 import logger from '../utils/logger';
 
-export const pageNotFound = (req: Request, res: Response) => {
+export const notFound = (req: Request, res: Response) => {
   res.status(404).send('Not found.');
 };
 
@@ -13,5 +14,8 @@ export const errorHandler = (
 ) => {
   logger.error(err.message);
 
-  res.status(500).json(err);
+  const statusCode = getHttpStatusCodeFromError(err);
+  const message = err.message;
+
+  res.status(statusCode).json({ message });
 };
