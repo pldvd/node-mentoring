@@ -47,12 +47,14 @@ describe('userController', () => {
   describe('GET /users/:id', () => {
     it('should return a specific user if exists', async () => {
       const response = await request(app).get('/users/1');
-
+      const expected = {
+        id: '1',
+        login: 'User1',
+        age: 33,
+        isDeleted: false,
+      };
       expect(response.status).toEqual(StatusCodes.OK);
-      expect(response.body.id).toBe('1');
-      expect(response.body.login).toBe('User1');
-      expect(response.body.age).toEqual(33);
-      expect(response.body.isDeleted).toBe(false);
+      expect(response.body).toMatchObject(expected);
     });
 
     it('should return a 404 error if user does not exist', async () => {
