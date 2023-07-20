@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import request from 'supertest';
 import User from '../models/User';
 import sequelizeFixtures from 'sequelize-fixtures';
@@ -31,7 +32,7 @@ describe('userController', () => {
     it('GET /users should return full list of users', async () => {
       const response = await request(app).get('/users');
 
-      expect(response.status).toEqual(200);
+      expect(response.status).toEqual(StatusCodes.OK);
       expect(response.body).toHaveLength(4);
 
       response.body.forEach((user) => {
@@ -47,7 +48,7 @@ describe('userController', () => {
     it('should return a specific user if exists', async () => {
       const response = await request(app).get('/users/1');
 
-      expect(response.status).toEqual(200);
+      expect(response.status).toEqual(StatusCodes.OK);
       expect(response.body.id).toBe('1');
       expect(response.body.login).toBe('User1');
       expect(response.body.age).toEqual(33);
@@ -57,7 +58,7 @@ describe('userController', () => {
     it('should return a 404 error if user does not exist', async () => {
       const response = await request(app).get('/users/23');
 
-      expect(response.status).toEqual(404);
+      expect(response.status).toEqual(StatusCodes.NOT_FOUND);
       expect(response.text).toBe('User not found.');
     });
   });
@@ -66,7 +67,7 @@ describe('userController', () => {
     it('should return a status of 400 if the request body is empty', async () => {
       const response = await request(app).post('/users').send({});
 
-      expect(response.status).toEqual(400);
+      expect(response.status).toEqual(StatusCodes.BAD_REQUEST);
     });
 
     it('should return a status of 400 if login is missing', async () => {
@@ -75,7 +76,7 @@ describe('userController', () => {
         .post('/users')
         .send({ password, age });
 
-      expect(response.status).toEqual(400);
+      expect(response.status).toEqual(StatusCodes.BAD_REQUEST);
     });
 
     it('should return a status of 400 if age is missing', async () => {
@@ -84,20 +85,20 @@ describe('userController', () => {
         .post('/users')
         .send({ password, login });
 
-      expect(response.status).toEqual(400);
+      expect(response.status).toEqual(StatusCodes.BAD_REQUEST);
     });
 
     it('should return a status of 400 if password is missing', async () => {
       const { login, age } = createUserData;
       const response = await request(app).post('/users').send({ age, login });
 
-      expect(response.status).toEqual(400);
+      expect(response.status).toEqual(StatusCodes.BAD_REQUEST);
     });
 
     it('should create a new user when login, user and password are present', async () => {
       const response = await request(app).post('/users').send(createUserData);
 
-      expect(response.status).toEqual(201);
+      expect(response.status).toEqual(StatusCodes.CREATED);
     });
   });
 
@@ -105,14 +106,14 @@ describe('userController', () => {
     it('should return a 404 error when no id provided', async () => {
       const response = await request(app).delete('/users');
 
-      expect(response.status).toEqual(404);
+      expect(response.status).toEqual(StatusCodes.NOT_FOUND);
       expect(response.text).toBe('Not found.');
     });
 
     it('should return a 404 error when user with id does not exist', async () => {
       const response = await request(app).delete('/users/23');
 
-      expect(response.status).toEqual(404);
+      expect(response.status).toEqual(StatusCodes.NOT_FOUND);
       expect(response.text).toBe('User not found.');
     });
 
@@ -120,7 +121,7 @@ describe('userController', () => {
       const response = await request(app).delete('/users/1');
       const successMessage = 'User with id: 1 was removed successfully.';
 
-      expect(response.status).toEqual(200);
+      expect(response.status).toEqual(StatusCodes.OK);
       expect(response.text).toBe(successMessage);
     });
   });
