@@ -27,28 +27,39 @@ describe('userController', () => {
     app.close();
   });
 
-  test('GET /users should return full list of users', async () => {
-    const response = await request(app).get('/users');
+  describe('GET /users', () => {
+    it('GET /users should return full list of users', async () => {
+      const response = await request(app).get('/users');
 
-    expect(response.status).toEqual(200);
-    expect(response.body).toHaveLength(4);
+      expect(response.status).toEqual(200);
+      expect(response.body).toHaveLength(4);
 
-    response.body.forEach((user) => {
-      expect(user).toHaveProperty('login');
-      expect(user).toHaveProperty('password');
-      expect(user).toHaveProperty('age');
-      expect(user).toHaveProperty('isDeleted');
+      response.body.forEach((user) => {
+        expect(user).toHaveProperty('login');
+        expect(user).toHaveProperty('password');
+        expect(user).toHaveProperty('age');
+        expect(user).toHaveProperty('isDeleted');
+      });
     });
   });
 
-  test('GET /users/:id should return a specific user', async () => {
-    const response = await request(app).get('/users/1');
+  describe('GET /users/:id', () => {
+    it('should return a specific user if exists', async () => {
+      const response = await request(app).get('/users/1');
 
-    expect(response.status).toEqual(200);
-    expect(response.body.id).toBe('1');
-    expect(response.body.login).toBe('User1');
-    expect(response.body.age).toEqual(33);
-    expect(response.body.isDeleted).toBe(false);
+      expect(response.status).toEqual(200);
+      expect(response.body.id).toBe('1');
+      expect(response.body.login).toBe('User1');
+      expect(response.body.age).toEqual(33);
+      expect(response.body.isDeleted).toBe(false);
+    });
+
+    it('should return a 404 error if user does not exist', async () => {
+      const response = await request(app).get('/users/23');
+
+      expect(response.status).toEqual(404);
+      expect(response.text).toBe('User not found.');
+    });
   });
 
   describe('POST /users', () => {
@@ -90,11 +101,27 @@ describe('userController', () => {
     });
   });
 
-  test('DELETE /users should delete a specific user and return a success message', async () => {
-    const response = await request(app).delete('/users/1');
-    const successMessage = 'User with id: 1 was removed successfully.';
+  describe('DELETE /users', () => {
+    it('should return a 404 error when no id provided', async () => {
+      const response = await request(app).delete('/users');
 
-    expect(response.status).toEqual(200);
-    expect(response.text).toBe(successMessage);
+      expect(response.status).toEqual(404);
+      expect(response.text).toBe('Not found.');
+    });
+
+    it('should return a 404 error when user with id does not exist', async () => {
+      const response = await request(app).delete('/users/23');
+
+      expect(response.status).toEqual(404);
+      expect(response.text).toBe('User not found.');
+    });
+
+    it('should delete a specific user and return a success message when user exists', async () => {
+      const response = await request(app).delete('/users/1');
+      const successMessage = 'User with id: 1 was removed successfully.';
+
+      expect(response.status).toEqual(200);
+      expect(response.text).toBe(successMessage);
+    });
   });
 });
